@@ -32,6 +32,28 @@ public class Shape
       //    ^
       //  [ :: ]
       //    ()
+	window.setColor(Color.red);
+      window.fillRect(xPos+10, yPos+10, width-20, height-30);
+      window.setColor(Color.green);
+      window.fillOval(320, 420, 60, 60);
+      window.setColor(Color.blue);
+      window.drawLine(300, 400, 250, 350);
+      window.setColor(Color.blue);
+      window.drawLine(400, 400, 450, 350);
+      window.setColor(Color.blue);
+      window.drawLine(325, 500, 325, 525);
+      window.setColor(Color.blue);
+      window.drawLine(375, 500, 375, 525);
+      
+      
+      window.setColor(Color.blue);
+      window.drawLine(500, 200, 475, 175);
+      window.setColor(Color.blue);
+      window.drawLine(550, 200, 575, 175);
+      window.setColor(Color.blue);
+      window.drawLine(515, 250, 515, 270);
+      window.setColor(Color.blue);
+      window.drawLine(535, 250, 535, 270);
 
    }
 
