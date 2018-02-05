@@ -50,6 +50,9 @@ class Robot extends Canvas
 		//add more code here
 	   window.setColor(Color.BLUE);
 	   window.fillRect(325, 225, 150, 100);
+	   window.setColor(Color.BLACK);
+	   window.drawLine(325, 225, 275, 175);
+	   window.drawLine(475, 225, 525, 175);
    }
 
    public void lowerBody( Graphics window )
@@ -58,6 +61,9 @@ class Robot extends Canvas
 		//add more code here
 	   window.setColor(Color.GRAY);
 	   window.fillRect(325, 350, 150, 100);
+	   window.setColor(Color.BLACK);
+	   window.drawLine(325, 450, 250, 700);
+	   window.drawLine(475, 450, 550, 700);
 
    }
 }
