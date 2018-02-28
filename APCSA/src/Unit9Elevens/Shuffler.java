@@ -1,5 +1,5 @@
 package Unit9Elevens;
-
+import java.lang.Math;
 public class Shuffler 
 {
 
@@ -7,18 +7,19 @@ public class Shuffler
 	 * The number of consecutive shuffle steps to be performed in each call to
 	 * each sorting procedure.
 	 */
-	private static final int SHUFFLE_COUNT = 1;
+	private static final int SHUFFLE_COUNT = 5;
+	private static final int VALUE_COUNT = 10;
+
 
 	/**
 	 * Tests shuffling methods.
-	 * 
-	 * @param args
-	 *            is not used.
+	 * @param args is not used.
 	 */
 	public static void main(String[] args) 
 	{
-		System.out.println("Results of " + SHUFFLE_COUNT + " consecutive perfect shuffles:");
-		int[] values1 = { 0, 1, 2, 3 };
+		System.out.println("Results of " + SHUFFLE_COUNT +
+								 " consecutive perfect shuffles:");
+		int[] values1 = {0, 1, 2, 3};
 		for (int j = 1; j <= SHUFFLE_COUNT; j++) 
 		{
 			perfectShuffle(values1);
@@ -31,8 +32,9 @@ public class Shuffler
 		}
 		System.out.println();
 
-		System.out.println("Results of " + SHUFFLE_COUNT + " consecutive efficient selection shuffles:");
-		int[] values2 = { 0, 1, 2, 3 };
+		System.out.println("Results of " + SHUFFLE_COUNT +
+								 " consecutive efficient selection shuffles:");
+		int[] values2 = {0, 1, 2, 3};
 		for (int j = 1; j <= SHUFFLE_COUNT; j++) 
 		{
 			selectionShuffle(values2);
@@ -46,6 +48,7 @@ public class Shuffler
 		System.out.println();
 	}
 
+
 	/**
 	 * Apply a "perfect shuffle" to the argument. The perfect shuffle algorithm
 	 * splits the deck in half, then interleaves the cards in one half with the
@@ -57,21 +60,29 @@ public class Shuffler
 	public static void perfectShuffle(int[] values) 
 	{
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 3 *** */
-		int[] Shuffled = new int[values.length];
-		for (int k = 0; k < 52; k += 2) 
-		{
-			for (int i = 0; i < 26; i++) 
-			{
-				Shuffled[i] = values[k];
-			}
-		}
-		for (int k = 1; k < 52; k += 2) 
-		{
-			for (int i = 26; i < 52; i++) 
-			{
-				Shuffled[i] = values[k];
-			}
-		}
+		int[] half1 = new int[ VALUE_COUNT / 2 ];
+        int[] half2 = new int[ VALUE_COUNT - VALUE_COUNT / 2 ];
+
+        for( int i = 0; i < VALUE_COUNT / 2; i++ ) 
+        {
+            half1[i] = values[i];
+        }
+        
+        for( int i = 0; i < VALUE_COUNT - VALUE_COUNT / 2; i++ ) 
+        {
+            half2[i] = values[ i + VALUE_COUNT / 2 ];
+        }
+
+        for( int i = 0; i < VALUE_COUNT / 2; i++ ) 
+        {
+            values[ 2 * i ] = half2[i];
+            values[ 2 * i + 1 ] = half1[i];
+        }
+
+        if( VALUE_COUNT % 2 != 0 ) 
+        {
+            values[ VALUE_COUNT - 1 ] = half2[ VALUE_COUNT - VALUE_COUNT / 2 ];
+        }
 
 	}
 
@@ -91,16 +102,12 @@ public class Shuffler
 	public static void selectionShuffle(int[] values) 
 	{
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 3 *** */
-		int[] Shuffled = new int[values.length];
-		for (int k = 0; k <= 51; k++) 
+		for( int k = VALUE_COUNT - 1; k >= 0; k-- ) 
 		{
-			int j = (int) (Math.random() * 51 + 1);
-			while (values[j] != 0) 
-			{
-				j = (int) (Math.random() * 51 + 1);
-			}
-			Shuffled[k] = values[j];
+            int r = (int)(Math.random() * k);
+            int tmp = values[r];
+            values[r] = values[k];
+            values[k] = tmp;
 		}
-
 	}
 }
