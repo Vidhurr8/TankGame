@@ -82,6 +82,7 @@ public class Deck
 			cards[k] = cards[random];
 			cards[random] = tempCard;
 		}
+		
 	}
 
 	/**
