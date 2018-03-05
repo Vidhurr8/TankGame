@@ -1,4 +1,4 @@
-package Unit9Elevens;
+package Unit9ElevensArrayList;
 import java.lang.Math;
 import java.util.ArrayList;
 
@@ -10,6 +10,7 @@ public class Shuffler
 	   * The number of consecutive shuffle steps to be performed in each call 
 	   * to each sorting procedure. Experiment with different values. 
 	   */ 
+		//public ArrayList<Card> cards;
 	  private static final int SHUFFLE_COUNT = 8; 
 	   
 	  /**
@@ -27,6 +28,7 @@ public class Shuffler
 	  { 
 	    System.out.println("Results of " + SHUFFLE_COUNT + 
 	                       " consecutive perfect shuffles:"); 
+	    //cards = new ArrayList<Card>();
 	    int[] values1 = new int[VALUE_COUNT]; 
 	    for (int i = 0; i < VALUE_COUNT; i++) 
 	    { 

@@ -23,7 +23,8 @@ public class Histogram
 	{
 		this();
 		fileName = fName;
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++) 
+		{
 			letters.add(values[i]);
 			count.add(0);
 		}
@@ -33,7 +34,7 @@ public class Histogram
 	public void loadAndAnalyzeFile() throws IOException
 	{
 		String word = "";
-		Scanner file = new Scanner(new File("/Users/fireguy/Documents/workspace/Unit 10/src/" + fileName));
+		Scanner file = new Scanner(new File("C:/Users/raveendranv4629/Desktop/VidhurWorkspace/" + fileName));
 		int myvar = file.nextInt();
 		for (int i = 0; i < myvar; i++) 
 		{
@@ -56,15 +57,14 @@ public class Histogram
 
 	public char mostFrequent()
 	{
-
-		return '#';
+		int i = Collections.max(count);
+		return letters.get(count.indexOf(i));
 	}
 
 	public char leastFrequent()
 	{
-
-
-		return '#';
+		int i = Collections.min(count);
+		return letters.get(count.indexOf(i));
 	}
 
 	public String toString()
