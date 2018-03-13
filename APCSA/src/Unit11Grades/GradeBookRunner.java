@@ -16,6 +16,7 @@ public class GradeBookRunner
 		String class1 = keyboard.nextLine();
 		out.println("How many students are in this class?");
 		int num = keyboard.nextInt();
+		keyboard.nextLine();
 		//String[] students = new String[num];
 		ArrayList<String> students = new ArrayList<String>();
 		String[] studentGrades = new String[num];
