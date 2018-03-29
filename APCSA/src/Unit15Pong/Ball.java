@@ -3,7 +3,7 @@ package Unit15Pong;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Ball extends Block
+public class Ball extends Block implements Collidable
 {
 	private int xSpeed;
 	private int ySpeed;
@@ -144,4 +144,32 @@ public class Ball extends Block
 		return "x - " + getX() + " y - " + getY() + " width - " + getWidth() + " height - " + getHeight() + " Color - "
 				+ getColor() + " xSpeed - " + getXSpeed() + " ySpeed - " + getYSpeed();
 	}
+
+@Override
+public boolean didCollideLeft(Object obj) 
+{
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public boolean didCollideRight(Object obj) 
+{
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public boolean didCollideTop(Object obj) 
+{
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public boolean didCollideBottom(Object obj) 
+{
+	// TODO Auto-generated method stub
+	return false;
+}
 }
