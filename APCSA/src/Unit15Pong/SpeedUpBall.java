@@ -40,11 +40,49 @@ class SpeedUpBall extends Ball
 
    public void setXSpeed( int xSpd )
    {
+	   Object obj = new Object();
+	   if (didCollideLeft(obj))
+	   {
+		   xSpeed = xSpd + 1;
+	   }
 	   
+	   if (didCollideRight(obj))
+	   {
+		   xSpeed = xSpd + 1;
+	   }
+	   
+	   if (didCollideTop(obj))
+	   {
+		   xSpeed = xSpd + 1;
+	   }
+	   
+	   if (didCollideBottom(obj))
+	   {
+		   xSpeed = xSpd + 1;
+	   }
    }
 
    public void setYSpeed( int ySpd )
    {
+	   Object obj = new Object();
+	   if (didCollideLeft(obj))
+	   {
+		   ySpeed = ySpd + 1;
+	   }
 	   
+	   if (didCollideRight(obj))
+	   {
+		   ySpeed = ySpd + 1;
+	   }
+	   
+	   if (didCollideTop(obj))
+	   {
+		   ySpeed = ySpd + 1;
+	   }
+	   
+	   if (didCollideBottom(obj))
+	   {
+		   ySpeed = ySpd + 1;
+	   }
    }
 }
