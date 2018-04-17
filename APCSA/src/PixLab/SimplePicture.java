@@ -68,10 +68,11 @@ public class SimplePicture implements DigitalPicture
   */
  public SimplePicture(String fileName)
  {
-   
-   // load the picture into the buffered image 
-   load(fileName);
-   
+   //load the picture into the buffered image 
+   //load(fileName);
+   String file = "src\\Pic\\images\\" + fileName;
+   //load the picture into the buffered image 
+   load(file);
  }
  
  /**
@@ -662,16 +663,18 @@ public class SimplePicture implements DigitalPicture
   */
  public boolean write(String fileName)
  {
+	 String file = "src\\Pic\\images\\" + fileName;
      try {
-         this.writeOrFail(fileName);
+         this.writeOrFail(file);
          return true;
      } catch (Exception ex) {
-         System.out.println("There was an error trying to write " + fileName);
+         System.out.println("There was an error trying to write " + file);
          ex.printStackTrace();
          return false;
      }
          
  }
+
  
  /**
   * Method to get the directory for the media
