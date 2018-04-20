@@ -70,7 +70,7 @@ public class SimplePicture implements DigitalPicture
  {
    //load the picture into the buffered image 
    //load(fileName);
-   String file = "src\\Pic\\images\\" + fileName;
+   String file = "src\\PixLab\\images\\" + fileName;
    //load the picture into the buffered image 
    load(file);
  }
