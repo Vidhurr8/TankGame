@@ -49,7 +49,7 @@ public class Alien extends MovingThing
 
 	public void draw( Graphics window )
 	{
-   	window.drawImage(image,getX(),getY(),80,80,null);
+		window.drawImage(image,getX(),getY(),80,80,null);
 	}
 
 	public String toString()

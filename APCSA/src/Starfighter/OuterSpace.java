@@ -24,7 +24,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 	private ArrayList<Alien> aliens;
 	private ArrayList<Ammo> shots;
 	
-	private int ALIEN_ATTACK;// 2 seconds
+	private int ALIEN_ATTACK; // 2 seconds
 	private Timer addAlienTimer;
 	private int lives;
 	private int kills;
@@ -135,7 +135,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			ship.setPos(1000, 0);
 		}
 
-
 		//add in collision detection
 		for (int j = 0; j < aliens.size(); j++) 
 		{
@@ -162,9 +161,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 					shots.remove(s);
 					kills++;
 				}
-
 			}
-
 		}
 		for (int i = 0; i < shots.size(); i++) 
 		{
@@ -183,7 +180,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		ship.draw(graphToBack);
 		twoDGraph.drawImage(back, null, 0, 0);
 	}
-
 
 	public void keyPressed(KeyEvent e)
 	{
@@ -283,7 +279,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
    		while(true)
    		{
    		   Thread.currentThread().sleep(5);
-            repaint();
+           repaint();
          }
       }catch(Exception e)
       {
