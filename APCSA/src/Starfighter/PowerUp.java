@@ -6,40 +6,40 @@ import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class Ship extends MovingThing
+
+public class PowerUp extends MovingThing
 {
 	private int speed;
 	private Image image;
 
-	public Ship()
+	public PowerUp()
 	{
 		this(0,0,0);
 	}
 
-	public Ship(int x, int y)
+	public PowerUp(int x, int y)
 	{
 		this(x,y,0);
 	}
 
-	public Ship(int x, int y, int s)
+	public PowerUp(int x, int y, int s)
 	{
 		super(x, y);
 		speed=s;
 		try
 		{
-			image = ImageIO.read(new File("\\Users\\raveendranv4629\\Desktop\\VidhurWorkspace\\ship.jpg"));
+			image = ImageIO.read(new File("\\Users\\raveendranv4629\\Desktop\\VidhurWorkspace\\pu.jpg"));
 		}
 		catch(Exception e)
 		{
 			//feel free to do something here
-			System.out.println("Ship doesn't work!");
+			System.out.println("Power Up doesn't work!");
 		}
 	}
 
-
 	public void setSpeed(int s)
 	{
-	   //add more code
+	   //add code
 		speed = s;
 	}
 
@@ -55,6 +55,6 @@ public class Ship extends MovingThing
 
 	public String toString()
 	{
-		return super.toString() + getSpeed();
+		return "";
 	}
 }

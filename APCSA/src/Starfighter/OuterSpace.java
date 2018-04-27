@@ -16,13 +16,16 @@ import javax.swing.Timer;
 public class OuterSpace extends Canvas implements KeyListener, Runnable
 {
 	private Ship ship;
+	private ShieldShip ship2;
 	private Alien alienOne;
 	private Alien alienTwo;
+	private PowerUp pu;
 
 	// uncomment once you are ready for this part
 	
 	private ArrayList<Alien> aliens;
 	private ArrayList<Ammo> shots;
+	private ArrayList<Ammo> alienShots;
 	
 	private int ALIEN_ATTACK; // 2 seconds
 	private Timer addAlienTimer;
@@ -42,13 +45,16 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		//instantiate other stuff
 		lives = 500;
 		kills = 0;
-		ship = new Ship(200, 200, 4);
+		ship = new Ship(400, 400, 4);
+		ship2 = new ShieldShip(0, 1000, 0);
+		pu = new PowerUp(200, 200, 0);
 		aliens = new ArrayList<Alien>();
 		aliens.add(new Alien(250, 50, 2));
 		aliens.add(new Alien(450, 50, 2));
 		aliens.add(new Alien(650, 50, 2));
 		aliens.add(new Alien(950, 50, 2));
 		shots = new ArrayList<Ammo>();
+		alienShots = new ArrayList<Ammo>();
 		speed = 2;
 		ALIEN_ATTACK = 2000;
 		setBackground(Color.WHITE);
@@ -90,34 +96,40 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		if(keys[0] == true)
 		{
 			ship.move("LEFT");
+			ship2.move("LEFT");
 		}
 
 		//add code to move stuff
 		if (keys[1] == true) 
 		{
-			if (ship.getX() < 730) 
+			if (ship.getX() < 730 || ship2.getX() < 730) 
 			{
 				ship.move("RIGHT");
+				ship2.move("RIGHT");
 			}
 		}
 		if (keys[2] == true) 
 		{
-			if (ship.getY() > 10) 
+			if (ship.getY() > 10 || ship2.getY() > 10) 
 			{
 				ship.move("DOWN");
+				ship2.move("DOWN");
 			}
 		}
 		if (keys[3] == true) 
 		{
-			if (ship.getY() < 500) 
+			if (ship.getY() < 500 || ship2.getY() < 500) 
 			{
 				ship.move("UP");
+				ship2.move("UP");
 			}
 		}
 		if (keys[4] == true) 
 		{
 			Ammo shot = new Ammo(ship.getX() + 28, ship.getY(), 5);
+			Ammo shot2 = new Ammo(ship2.getX() + 28, ship2.getY(), 5);
 			shots.add(shot);
+			shots.add(shot2);
 			keys[4] = false;
 		}
 		
@@ -129,10 +141,19 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 				a.setSpeed(0);
 				a.setPos(1000, 0);
 			}
+			
+			for (int j = 0; j < alienShots.size(); j++) 
+			{
+				Ammo s = alienShots.get(j);
+				s.setSpeed(0);
+				s.setPos(1000, 0);
+			}
+			
 			ship.setSpeed(0);
 			graphToBack.setColor(Color.WHITE);
 			graphToBack.drawString("Game Over", 200, 300);
 			ship.setPos(1000, 0);
+			pu.setPos(0, 1000);
 		}
 
 		//add in collision detection
@@ -163,6 +184,28 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 				}
 			}
 		}
+		
+		if (pu.getX() + 100 >= ship.getX() && pu.getX() <= ship.getX() + 70 && pu.getY() + 44 >= ship.getY()
+				&& pu.getY() <= ship.getY() + 43) 
+		{
+			pu.setPos(0, 1000);
+			ship2.setPos(ship.getX(), ship.getY());
+			ship2.setSpeed(ship.getSpeed());
+			ship.setPos(1000, 0);
+			ship.setSpeed(0);
+		}
+		
+		for (int i = 0; i < alienShots.size(); i++) 
+		{
+			Ammo s = alienShots.get(i);
+			if (ship.getX() >= s.getX() && ship.getX() <= s.getX() + 100 && ship.getY() >= s.getY()
+					&& ship.getY() <= s.getY() + 80) 
+			{
+				alienShots.remove(s);
+				lives--;
+			}
+		}
+		
 		for (int i = 0; i < shots.size(); i++) 
 		{
 			Ammo s = shots.get(i);
@@ -177,7 +220,25 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 				shots.remove(s);
 			}
 		}
+		
+		for (int i = 0; i < alienShots.size(); i++) 
+		{
+			Ammo s = alienShots.get(i);
+			s.draw(graphToBack);
+			s.move("DOWN");
+		}
+		for (int i = 0; i < alienShots.size(); i++) 
+		{
+			Ammo s = alienShots.get(i);
+			if (s.getY() >= 500) 
+			{
+				shots.remove(s);
+			}
+		}
+		
 		ship.draw(graphToBack);
+		ship2.draw(graphToBack);
+		pu.draw(graphToBack);
 		twoDGraph.drawImage(back, null, 0, 0);
 	}
 
@@ -240,11 +301,18 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 	{
 
 		int x = (int) (Math.random() * getWidth());
-		int y = (int) (Math.random() * (getHeight() - 200));
+		int y = (int) (Math.random() * (getHeight()));
 
 		if (addAlienTimer.isRunning()) 
 		{
 			aliens.add(new Alien(x, y, speed));
+			for (int j = 0; j < aliens.size(); j++) 
+			{
+				Alien a = aliens.get(j);
+				Ammo shot = new Ammo(a.getX() + 40, a.getY() + 80, -3);
+				alienShots.add(shot);
+			}
+			
 		}
 	}
 	
