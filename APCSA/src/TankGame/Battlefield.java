@@ -45,13 +45,11 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		kills = 0;
 		tank = new Tank(400, 450, 4);
 		buildings = new ArrayList<Building>();
-		buildings.add(new Building(250, 50, 0));
 		buildings.add(new Building(450, 50, 0));
 		buildings.add(new Building(650, 50, 0));
-		buildings.add(new Building(950, 50, 0));
 		shots = new ArrayList<Ammo>();
 		speed = 2;
-		TIMER = 1000;
+		TIMER = 500;
 		setBackground(Color.WHITE);
 		setVisible(true);
 
@@ -60,7 +58,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 
 		setVisible(true);
 		
-		startAttack();
+		//startAttack();
 		moreBuildings();
 	}
 
@@ -82,15 +80,18 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		//create a graphics reference to the back ground image
 		//we will draw all changes on the background image
 		Graphics graphToBack = back.createGraphics();
-		graphToBack.setColor(Color.BLACK);
+		graphToBack.setColor(Color.GRAY);
 		graphToBack.fillRect(0, 0, 800, 600);
 		graphToBack.setColor(Color.WHITE);
-		graphToBack.drawString("Score: " + score, 25, 75);
+		//graphToBack.drawString("Score: " + score, 25, 75);
 		graphToBack.drawString("Kills: " + kills, 25, 100);
 
 		if(keys[0] == true)
 		{
-			tank.move("LEFT");
+			if (tank.getX() > 0) 
+			{
+				tank.move("LEFT");
+			}
 		}
 
 		//add code to move stuff
@@ -122,12 +123,12 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			keys[4] = false;
 		}
 		
-		if (buildings.size() == 0) 
+		if (buildings.size() < 1) 
 		{	
 			tank.setSpeed(0);
-			graphToBack.setColor(Color.BLACK);
+			graphToBack.setColor(Color.GRAY);
 			score = kills / time;
-			graphToBack.drawString("Score" + score, 200, 300);
+			graphToBack.drawString("Score: " + score, 200, 300);
 			tank.setPos(1000, 0);
 		}
 
@@ -140,17 +141,20 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			{
 				if (a.getX() > 900)
 					a.setX(-20);
-				if (a.getX() + 100 >= tank.getX() && a.getX() <= tank.getX() + 70 && a.getY() + 44 >= tank.getY()
-						&& a.getY() <= tank.getY() + 43) 
+				if ((a.getX() + 80 >= tank.getX() && a.getX() <= tank.getX() && a.getY() + 80 >= tank.getY()
+						&& a.getY() <= tank.getY()) || a.getX() + 80 >= tank.getX() + 80 && a.getX() <= tank.getX() + 80 && a.getY() + 80 >= tank.getY() + 80
+						&& a.getY() <= tank.getY() + 80) 
 				{
-					tank.setSpeed(0);
+					buildings.remove(a);
+					kills++;
+					break;
 				}
 			}
 			for (int i = 0; i < shots.size(); i++) 
 			{
 				Ammo s = shots.get(i);
-				if (a.getX() >= s.getX() && a.getX() <= s.getX() + 100 && a.getY() >= s.getY()
-						&& a.getY() <= s.getY() + 80) 
+				if (a.getX() <= s.getX() && a.getX() + 80 >= s.getX() && a.getY() <= s.getY()
+						&& a.getY() + 80 >= s.getY() + 80) 
 				{
 					buildings.remove(a);
 					shots.remove(s);
@@ -243,11 +247,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		for (int i = 0; i < 10; i++) 
 		{
 			buildings.add(new Building(x, y, 0));
-			for (int j = 0; j < buildings.size(); j++) 
-			{
-				Building a = buildings.get(j);
-			}
-			
+			Building a = buildings.get(i);
 		}
 	}
 	

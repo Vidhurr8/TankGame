@@ -10,7 +10,7 @@ public class TankGame extends JFrame
 
 	public TankGame()
 	{
-		super("TANKGAME");
+		super("TANK GAME");
 		setSize(WIDTH,HEIGHT);
 
 		Battlefield theGame = new Battlefield();
