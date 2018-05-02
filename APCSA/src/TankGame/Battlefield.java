@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.Timer;
+import java.util.Random;
 
 public class Battlefield extends Canvas implements KeyListener, Runnable
 {
@@ -41,15 +42,20 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		keys = new boolean[5];
 
 		//instantiate other stuff
+		Random rand = new Random();
 		score = 0;
 		kills = 0;
 		tank = new Tank(400, 450, 4);
 		buildings = new ArrayList<Building>();
 		buildings.add(new Building(450, 50, 0));
 		buildings.add(new Building(650, 50, 0));
+		buildings.add(new Building(rand.nextInt(700) + 25, rand.nextInt(550) + 100, 0));
+		buildings.add(new Building(rand.nextInt(700) + 25, rand.nextInt(550) + 100, 0));
+		buildings.add(new Building(rand.nextInt(700) + 25, rand.nextInt(550) + 100, 0));
 		shots = new ArrayList<Ammo>();
 		speed = 2;
 		TIMER = 500;
+		time = 1;
 		setBackground(Color.WHITE);
 		setVisible(true);
 
@@ -123,7 +129,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			keys[4] = false;
 		}
 		
-		if (buildings.size() < 1) 
+		if (buildings.size() == 0) 
 		{	
 			tank.setSpeed(0);
 			graphToBack.setColor(Color.GRAY);
@@ -147,7 +153,6 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 				{
 					buildings.remove(a);
 					kills++;
-					break;
 				}
 			}
 			for (int i = 0; i < shots.size(); i++) 
@@ -251,7 +256,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		}
 	}
 	
-	public void startAttack() 
+	/*public void startAttack() 
 	{
 		if (addTimer == null) 
 		{
@@ -266,7 +271,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 				addTimer.restart();
 			}
 		}
-	}
+	}*/
 	
 	private class TimerHandler implements ActionListener 
 	{
