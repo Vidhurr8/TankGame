@@ -45,13 +45,13 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		Random rand = new Random();
 		score = 0;
 		kills = 0;
-		tank = new Tank(400, 450, 4);
+		tank = new Tank(400, 450, 2);
 		buildings = new ArrayList<Building>();
-		buildings.add(new Building(450, 50, 0));
-		buildings.add(new Building(650, 50, 0));
-		buildings.add(new Building(rand.nextInt(700) + 25, rand.nextInt(550) + 100, 0));
-		buildings.add(new Building(rand.nextInt(700) + 25, rand.nextInt(550) + 100, 0));
-		buildings.add(new Building(rand.nextInt(700) + 25, rand.nextInt(550) + 100, 0));
+		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
+		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
+		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
+		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
+		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
 		shots = new ArrayList<Ammo>();
 		speed = 2;
 		TIMER = 500;
@@ -129,10 +129,10 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			keys[4] = false;
 		}
 		
-		if (buildings.size() == 0) 
+		if (kills == 5) 
 		{	
 			tank.setSpeed(0);
-			graphToBack.setColor(Color.GRAY);
+			graphToBack.setColor(Color.WHITE);
 			score = kills / time;
 			graphToBack.drawString("Score: " + score, 200, 300);
 			tank.setPos(1000, 0);
@@ -159,7 +159,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			{
 				Ammo s = shots.get(i);
 				if (a.getX() <= s.getX() && a.getX() + 80 >= s.getX() && a.getY() <= s.getY()
-						&& a.getY() + 80 >= s.getY() + 80) 
+						&& a.getY() + 80 >= s.getY()) 
 				{
 					buildings.remove(a);
 					shots.remove(s);
