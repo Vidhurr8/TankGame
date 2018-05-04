@@ -27,17 +27,19 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 	
 	private int TIMER; // 1 second
 	private Timer addTimer;
-	private int score;
+	private long score;
 	private int kills;
 	private int speed;
-	private int time;
+	private long time;
+	private long start;
+	private long end;
 
 	private boolean[] keys;
 	private BufferedImage back;
 
 	public Battlefield()
 	{
-		setBackground(Color.green);
+		setBackground(Color.GRAY);
 
 		keys = new boolean[5];
 
@@ -45,13 +47,16 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		Random rand = new Random();
 		score = 0;
 		kills = 0;
-		tank = new Tank(400, 450, 2);
+		tank = new Tank(800, 750, 2);
 		buildings = new ArrayList<Building>();
-		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
-		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
-		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
-		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
-		buildings.add(new Building(rand.nextInt(600) + 25, rand.nextInt(500) + 100, 0));
+		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 		shots = new ArrayList<Ammo>();
 		speed = 2;
 		TIMER = 500;
@@ -87,10 +92,11 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		//we will draw all changes on the background image
 		Graphics graphToBack = back.createGraphics();
 		graphToBack.setColor(Color.GRAY);
-		graphToBack.fillRect(0, 0, 800, 600);
+		graphToBack.fillRect(0, 0, 1600, 900);
 		graphToBack.setColor(Color.WHITE);
 		//graphToBack.drawString("Score: " + score, 25, 75);
 		graphToBack.drawString("Kills: " + kills, 25, 100);
+		start = System.currentTimeMillis();
 
 		if(keys[0] == true)
 		{
@@ -103,7 +109,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		//add code to move stuff
 		if (keys[1] == true) 
 		{
-			if (tank.getX() < 730) 
+			if (tank.getX() < 1550) 
 			{
 				tank.move("RIGHT");
 			}
@@ -117,7 +123,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		}
 		if (keys[3] == true) 
 		{
-			if (tank.getY() < 500) 
+			if (tank.getY() < 850) 
 			{
 				tank.move("UP");
 			}
@@ -129,13 +135,15 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			keys[4] = false;
 		}
 		
-		if (kills == 5) 
-		{	
+		if (kills == 8) 
+		{
+			end = System.currentTimeMillis();
+			//time = end - start;
 			tank.setSpeed(0);
 			graphToBack.setColor(Color.WHITE);
 			score = kills / time;
 			graphToBack.drawString("Score: " + score, 200, 300);
-			tank.setPos(1000, 0);
+			tank.setPos(1700, 0);
 		}
 
 		//add in collision detection
