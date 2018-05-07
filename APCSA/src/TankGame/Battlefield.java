@@ -1,6 +1,7 @@
 package TankGame;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Canvas;
@@ -27,12 +28,14 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 	
 	private int TIMER; // 1 second
 	private Timer addTimer;
-	private long score;
-	private int kills;
+	private double score;
+	private double kills;
 	private int speed;
-	private long time;
-	private long start;
-	private long end;
+	private double time;
+	private double start;
+	private double end;
+	private int count = 0;
+	private Random rand = new Random();
 
 	private boolean[] keys;
 	private BufferedImage back;
@@ -44,22 +47,21 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		keys = new boolean[5];
 
 		//instantiate other stuff
-		Random rand = new Random();
 		score = 0;
 		kills = 0;
 		tank = new Tank(800, 750, 2);
 		buildings = new ArrayList<Building>();
+		/*buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
-		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
-		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));*/
 		shots = new ArrayList<Ammo>();
 		speed = 2;
-		TIMER = 500;
+		TIMER = 1000;
 		time = 1;
 		setBackground(Color.WHITE);
 		setVisible(true);
@@ -69,8 +71,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 
 		setVisible(true);
 		
-		//startAttack();
-		moreBuildings();
+		startAttack();
+		//moreBuildings();
 	}
 
    public void update(Graphics window)
@@ -95,8 +97,17 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		graphToBack.fillRect(0, 0, 1600, 900);
 		graphToBack.setColor(Color.WHITE);
 		//graphToBack.drawString("Score: " + score, 25, 75);
-		graphToBack.drawString("Kills: " + kills, 25, 100);
-		start = System.currentTimeMillis();
+		//graphToBack.drawString("Kills: " + kills, 25, 100);
+		graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+		graphToBack.drawString("Tank Game", 675, 200);
+		graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		graphToBack.drawString("By Vidhur Raveendran", 703, 250);
+		graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+		graphToBack.drawString("Instructions: Destroy all buildings as quickly as possible", 630, 300);
+		graphToBack.drawString("Controls: Arrow Keys for movement, space to shoot", 635, 315);
+		graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 35));
+		graphToBack.drawString("Press Space to Begin!", 635, 450);
+		//start = System.nanoTime();
 
 		if(keys[0] == true)
 		{
@@ -130,19 +141,43 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		}
 		if (keys[4] == true) 
 		{
+			if (buildings.size() == 0)
+			{
+				count++;
+				addTimer.start();
+				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
+			}
 			Ammo shot = new Ammo(tank.getX() + 41, tank.getY(), 5);
 			shots.add(shot);
 			keys[4] = false;
 		}
 		
+		if (count > 0)
+		{
+			graphToBack.setColor(Color.GRAY);
+			graphToBack.fillRect(0, 0, 1600, 900);
+			graphToBack.setColor(Color.WHITE);
+			graphToBack.drawString("Kills: " + kills, 25, 100);
+			tank.draw(graphToBack);
+		}
+		
 		if (kills == 8) 
 		{
-			end = System.currentTimeMillis();
+			addTimer.stop();
+			//graphToBack.removeAll();
+			//end = System.nanoTime();
 			//time = end - start;
 			tank.setSpeed(0);
-			graphToBack.setColor(Color.WHITE);
-			score = kills / time;
-			graphToBack.drawString("Score: " + score, 200, 300);
+			graphToBack.setColor(Color.RED);
+			score = (int) ((kills / time) * 100);
+			graphToBack.drawString("Score: " + score, 25, 150);
 			tank.setPos(1700, 0);
 		}
 
@@ -151,10 +186,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		{
 			Building a = buildings.get(j);
 			a.draw(graphToBack);
-			if (a.getX() <= 1000) 
+			if (a.getX() <= 1600) 
 			{
-				if (a.getX() > 900)
-					a.setX(-20);
 				if ((a.getX() + 80 >= tank.getX() && a.getX() <= tank.getX() && a.getY() + 80 >= tank.getY()
 						&& a.getY() <= tank.getY()) || a.getX() + 80 >= tank.getX() + 80 && a.getX() <= tank.getX() + 80 && a.getY() + 80 >= tank.getY() + 80
 						&& a.getY() <= tank.getY() + 80) 
@@ -192,7 +225,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			}
 		}
 		
-		tank.draw(graphToBack);
+		//tank.draw(graphToBack);
 		twoDGraph.drawImage(back, null, 0, 0);
 	}
 
@@ -264,28 +297,19 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		}
 	}
 	
-	/*public void startAttack() 
+	public void startAttack() 
 	{
 		if (addTimer == null) 
 		{
 			addTimer = new Timer(TIMER, new Battlefield.TimerHandler());
-			addTimer.start();
-			time++;
 		} 
-		else 
-		{
-			if (!addTimer.isRunning()) 
-			{
-				addTimer.restart();
-			}
-		}
-	}*/
+	}
 	
 	private class TimerHandler implements ActionListener 
 	{
 		public void actionPerformed(ActionEvent actionEvent) 
 		{
-			moreBuildings();
+			time++;
 		}
 	}
 
