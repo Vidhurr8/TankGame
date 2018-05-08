@@ -49,7 +49,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		//instantiate other stuff
 		score = 0;
 		kills = 0;
-		tank = new Tank(800, 750, 2);
+		tank = new Tank(800, 750, 3);
 		buildings = new ArrayList<Building>();
 		/*buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
@@ -105,6 +105,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 		graphToBack.drawString("Instructions: Destroy all buildings as quickly as possible", 630, 300);
 		graphToBack.drawString("Controls: Arrow Keys for movement, space to shoot", 635, 315);
+		graphToBack.drawString("Score is determined by the amount of time taken to destroy all buildings", 590, 330);
 		graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 35));
 		graphToBack.drawString("Press Space to Begin!", 635, 450);
 		//start = System.nanoTime();
@@ -114,6 +115,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			if (tank.getX() > 0) 
 			{
 				tank.move("LEFT");
+				//tank.setDirection("LEFT");
 			}
 		}
 
@@ -141,7 +143,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		}
 		if (keys[4] == true) 
 		{
-			if (buildings.size() == 0)
+			if (buildings.size() == 0 && count == 0)
 			{
 				count++;
 				addTimer.start();
@@ -154,6 +156,12 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 			}
+			
+			/*if (kills == 8)
+			{
+				kills = 0;
+				count = 0;
+			}*/
 			Ammo shot = new Ammo(tank.getX() + 41, tank.getY(), 5);
 			shots.add(shot);
 			keys[4] = false;
@@ -171,13 +179,13 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		if (kills == 8) 
 		{
 			addTimer.stop();
-			//graphToBack.removeAll();
-			//end = System.nanoTime();
-			//time = end - start;
+			//buildings.add(new Building(2000, 1000, 0));
 			tank.setSpeed(0);
 			graphToBack.setColor(Color.RED);
 			score = (int) ((kills / time) * 100);
 			graphToBack.drawString("Score: " + score, 25, 150);
+			graphToBack.setColor(Color.WHITE);
+			//graphToBack.drawString("Press Space to Play Again", 620, 450);
 			tank.setPos(1700, 0);
 		}
 

@@ -9,7 +9,10 @@ import javax.imageio.ImageIO;
 public class Tank extends MovingThing
 {
 	private int speed;
-	private Image image;
+	private Image imageUp;
+	private Image imageDown;
+	private Image imageLeft;
+	private Image imageRight;
 
 	public Tank()
 	{
@@ -27,7 +30,10 @@ public class Tank extends MovingThing
 		speed=s;
 		try
 		{
-			image = ImageIO.read(new File("\\Users\\raveendranv4629\\Desktop\\VidhurWorkspace\\tank.png"));
+			imageUp = ImageIO.read(new File("\\Users\\raveendranv4629\\Desktop\\VidhurWorkspace\\tankUp.png"));
+			imageDown = ImageIO.read(new File("\\Users\\raveendranv4629\\Desktop\\VidhurWorkspace\\tankDown.png"));
+			imageLeft = ImageIO.read(new File("\\Users\\raveendranv4629\\Desktop\\VidhurWorkspace\\tankLeft.png"));
+			imageRight = ImageIO.read(new File("\\Users\\raveendranv4629\\Desktop\\VidhurWorkspace\\tankRight.png"));
 		}
 		catch(Exception e)
 		{
@@ -50,9 +56,38 @@ public class Tank extends MovingThing
 
 	public void draw( Graphics window )
 	{
-		window.drawImage(image,getX(),getY(),80,80,null);
+		window.drawImage(imageUp,getX(),getY(),80,80,null);
 	}
-
+	
+	public void draw2( Image i )
+	{
+		Graphics window = null;
+		window.drawImage(i,getX(),getY(),80,80,null);
+	}
+	
+	public void setDirection(String s)
+	{
+		if (s == "LEFT")
+		{
+			draw2(imageLeft);
+		}
+		
+		else if (s == "RIGHT")
+		{
+			draw2(imageRight);
+		}
+		
+		else if (s == "UP")
+		{
+			draw2(imageUp);
+		}
+		
+		else if (s == "DOWN")
+		{
+			draw2(imageDown);
+		}
+	}
+	
 	public String toString()
 	{
 		return super.toString() + getSpeed();
