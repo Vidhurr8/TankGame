@@ -35,6 +35,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 	private double start;
 	private double end;
 	private int count = 0;
+	private String direction = "UP";
 	private Random rand = new Random();
 
 	private boolean[] keys;
@@ -49,7 +50,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		//instantiate other stuff
 		score = 0;
 		kills = 0;
-		tank = new Tank(800, 750, 3);
+		tank = new Tank(800, 750, 1);
 		buildings = new ArrayList<Building>();
 		/*buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
@@ -115,7 +116,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			if (tank.getX() > 0) 
 			{
 				tank.move("LEFT");
-				//tank.setDirection("LEFT");
+				tank.setDirection("LEFT");
+				direction = "LEFT";
 			}
 		}
 
@@ -125,6 +127,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			if (tank.getX() < 1550) 
 			{
 				tank.move("RIGHT");
+				tank.setDirection("RIGHT");
+				direction = "RIGHT";
 			}
 		}
 		if (keys[2] == true) 
@@ -132,6 +136,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			if (tank.getY() > 10) 
 			{
 				tank.move("DOWN");
+				tank.setDirection("UP");
+				direction = "DOWN";
 			}
 		}
 		if (keys[3] == true) 
@@ -139,6 +145,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			if (tank.getY() < 850) 
 			{
 				tank.move("UP");
+				tank.setDirection("DOWN");
+				direction = "UP";
 			}
 		}
 		if (keys[4] == true) 
@@ -147,6 +155,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 			{
 				count++;
 				addTimer.start();
+				tank.setDirection("UP");
 				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
@@ -163,6 +172,29 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 				count = 0;
 			}*/
 			Ammo shot = new Ammo(tank.getX() + 41, tank.getY(), 5);
+			if (tank.getDirection() == "UP")
+			{
+				shot.setPos(tank.getX() + 41, tank.getY());
+			}
+			
+			else if (tank.getDirection() == "DOWN")
+			{
+				shot.setPos(tank.getX() + 34, tank.getY() + 75);
+			}
+			
+			else if (tank.getDirection() == "LEFT")
+			{
+				shot.setPos(tank.getX(), tank.getY() + 34);
+			}
+			
+			else if (tank.getDirection() == "RIGHT")
+			{
+				shot.setPos(tank.getX() + 75, tank.getY() + 41);
+			}
+			else
+			{
+				shot.setPos(tank.getX() + 41, tank.getY());
+			}
 			shots.add(shot);
 			keys[4] = false;
 		}
@@ -221,19 +253,18 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		{
 			Ammo s = shots.get(i);
 			s.draw(graphToBack);
-			s.move("DOWN");
+			s.move(direction);
 		}
 		
 		for (int i = 0; i < shots.size(); i++) 
 		{
 			Ammo s = shots.get(i);
-			if (s.getY() <= 1) 
+			if (s.getY() <= 1 || s.getY() >= 899 || s.getX() <= 1 || s.getX() >= 1599) 
 			{
 				shots.remove(s);
 			}
 		}
 		
-		//tank.draw(graphToBack);
 		twoDGraph.drawImage(back, null, 0, 0);
 	}
 

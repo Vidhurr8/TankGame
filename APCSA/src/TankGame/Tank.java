@@ -13,6 +13,7 @@ public class Tank extends MovingThing
 	private Image imageDown;
 	private Image imageLeft;
 	private Image imageRight;
+	private String direction;
 
 	public Tank()
 	{
@@ -56,36 +57,35 @@ public class Tank extends MovingThing
 
 	public void draw( Graphics window )
 	{
-		window.drawImage(imageUp,getX(),getY(),80,80,null);
-	}
-	
-	public void draw2( Image i )
-	{
-		Graphics window = null;
-		window.drawImage(i,getX(),getY(),80,80,null);
+		if (direction == "UP")
+		{
+			window.drawImage(imageUp,getX(),getY(),80,80,null);
+		}
+		
+		else if (direction == "DOWN")
+		{
+			window.drawImage(imageDown,getX(),getY(),80,80,null);
+		}
+		
+		else if (direction == "LEFT")
+		{
+			window.drawImage(imageLeft,getX(),getY(),80,80,null);
+		}
+		
+		else if (direction == "RIGHT")
+		{
+			window.drawImage(imageRight,getX(),getY(),80,80,null);
+		}
 	}
 	
 	public void setDirection(String s)
 	{
-		if (s == "LEFT")
-		{
-			draw2(imageLeft);
-		}
-		
-		else if (s == "RIGHT")
-		{
-			draw2(imageRight);
-		}
-		
-		else if (s == "UP")
-		{
-			draw2(imageUp);
-		}
-		
-		else if (s == "DOWN")
-		{
-			draw2(imageDown);
-		}
+		direction = s;
+	}
+	
+	public String getDirection()
+	{
+		return direction;
 	}
 	
 	public String toString()
