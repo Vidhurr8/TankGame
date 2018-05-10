@@ -36,6 +36,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 	private double end;
 	private int count = 0;
 	private String direction = "UP";
+	private String shotDirection = "UP";
 	private Random rand = new Random();
 
 	private boolean[] keys;
@@ -52,16 +53,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		kills = 0;
 		tank = new Tank(800, 750, 1);
 		buildings = new ArrayList<Building>();
-		/*buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
-		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
-		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
-		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
-		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
-		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
-		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
-		buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));*/
 		shots = new ArrayList<Ammo>();
-		speed = 2;
+		speed = 1;
 		TIMER = 1000;
 		time = 1;
 		setBackground(Color.WHITE);
@@ -73,7 +66,6 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		setVisible(true);
 		
 		startAttack();
-		//moreBuildings();
 	}
 
    public void update(Graphics window)
@@ -97,8 +89,6 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		graphToBack.setColor(Color.GRAY);
 		graphToBack.fillRect(0, 0, 1600, 900);
 		graphToBack.setColor(Color.WHITE);
-		//graphToBack.drawString("Score: " + score, 25, 75);
-		//graphToBack.drawString("Kills: " + kills, 25, 100);
 		graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 50));
 		graphToBack.drawString("Tank Game", 675, 200);
 		graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -109,7 +99,6 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		graphToBack.drawString("Score is determined by the amount of time taken to destroy all buildings", 590, 330);
 		graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 35));
 		graphToBack.drawString("Press Space to Begin!", 635, 450);
-		//start = System.nanoTime();
 
 		if(keys[0] == true)
 		{
@@ -166,30 +155,29 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 				buildings.add(new Building(rand.nextInt(1450) + 80, rand.nextInt(650) + 100, 0));
 			}
 			
-			/*if (kills == 8)
-			{
-				kills = 0;
-				count = 0;
-			}*/
 			Ammo shot = new Ammo(tank.getX() + 41, tank.getY(), 5);
 			if (tank.getDirection() == "UP")
 			{
 				shot.setPos(tank.getX() + 41, tank.getY());
+				shotDirection = "DOWN";
 			}
 			
 			else if (tank.getDirection() == "DOWN")
 			{
 				shot.setPos(tank.getX() + 34, tank.getY() + 75);
+				shotDirection = "UP";
 			}
 			
 			else if (tank.getDirection() == "LEFT")
 			{
 				shot.setPos(tank.getX(), tank.getY() + 34);
+				shotDirection = "LEFT";
 			}
 			
 			else if (tank.getDirection() == "RIGHT")
 			{
 				shot.setPos(tank.getX() + 75, tank.getY() + 41);
+				shotDirection = "RIGHT";
 			}
 			else
 			{
@@ -211,13 +199,11 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		if (kills == 8) 
 		{
 			addTimer.stop();
-			//buildings.add(new Building(2000, 1000, 0));
 			tank.setSpeed(0);
 			graphToBack.setColor(Color.RED);
 			score = (int) ((kills / time) * 100);
 			graphToBack.drawString("Score: " + score, 25, 150);
 			graphToBack.setColor(Color.WHITE);
-			//graphToBack.drawString("Press Space to Play Again", 620, 450);
 			tank.setPos(1700, 0);
 		}
 
@@ -253,7 +239,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		{
 			Ammo s = shots.get(i);
 			s.draw(graphToBack);
-			s.move(direction);
+			s.move(shotDirection);
 		}
 		
 		for (int i = 0; i < shots.size(); i++) 
@@ -321,19 +307,6 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 	public void keyTyped(KeyEvent e)
 	{
 
-	}
-	
-	public void moreBuildings() 
-	{
-
-		int x = (int) (Math.random() * getWidth());
-		int y = (int) (Math.random() * (getHeight()) - 200);
-
-		for (int i = 0; i < 10; i++) 
-		{
-			buildings.add(new Building(x, y, 0));
-			Building a = buildings.get(i);
-		}
 	}
 	
 	public void startAttack() 
